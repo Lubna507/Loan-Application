@@ -1,0 +1,94 @@
+<div class="container-fluid mb-5">
+  <h3 align="center">Loan Application Form</h3>
+  <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)" novalidate>
+
+    <!-- {{userForm.value | json}} -->
+    <!-- <hr/> -->
+    <!-- {{userModel | json}} -->
+    <div class="form-group">
+      <label>Enter your Name: </label>
+      <input type="text" required #name="ngModel" [class.is-invalid]="name.invalid && name.touched"  class="form-control" name="name" [ngModel]="userModel.name">
+      <small class="text-danger" [class.d-none]="name.valid || name.untouched">**Name is required</small>
+     
+    </div>
+<!-- {{name.pristine}} -->
+<!-- {{name.valid}}  -->
+<br>
+    <!-- <div class="form-group">
+      <label>Enter your Lastname: </label>
+      <input type="text" class="form-control" name="lastname" [ngModel]="userModel.lastname">
+    </div><br> -->
+
+    <div class="form-group">
+      <label>Enter your EmailId: </label>
+      <input type="email" required #email="ngModel" [class.is-invalid]="email.invalid && email.touched" class="form-control" name="email" [ngModel]="userModel.emailid">
+      <small class="text-danger" [class.d-none]="email.valid || email.untouched">**Email is required</small>
+    </div><br>
+
+    <div class="form-group">
+      <label>Enter your Phone Number: </label>
+      <input type="tel" required #phone="ngModel" pattern="^\d{10}$" [class.is-invalid]="phone.invalid && phone.touched" class="form-control" name ="number" [ngModel]="userModel.phonenumber">
+      <!-- <small class="text-danger" [class.d-none]="phone.valid || phone.untouched">**Phone number must be of 10 digits</small> -->
+<div *ngIf="phone.errors && (phone.invalid || phone.untouched)">
+  <small class="text-danger" *ngIf="phone.errors['required']">**Phone number is required</small>
+  <small class="text-danger" *ngIf="phone.errors['pattern']">**Phone number must be of 10 digits</small>
+</div>
+    </div>
+<br>
+    <div class="form-group">
+      <select (blur)="validateLoan(loan.value)" (change)="validateLoan(loan.value)"  #loan="ngModel" [class.is-invalid]="loanhasError && loan.touched" class="custom-select" name="loan" [(ngModel)]="userModel.loan" >
+        <option value="default">I am interesed in</option>
+        <option *ngFor="let loan of loans">{{loan}}</option>
+      </select><br>
+      <small class="text-danger" [class.d-none]="!loanhasError || loan.untouched">**Please choose a loan option</small>
+    </div><br>
+
+    <div class="mb-3">
+      <label>Gender</label>
+      <div class="form-check">
+        <input class="form-check-input" [ngModel]="userModel.gender" type="radio" name="gender" value="male">
+        <label class="form-check-label">Male</label>
+      </div>
+
+      <div class="form-check">
+        <input class="form-check-input" [ngModel]="userModel.gender" type="radio" name="gender" value="female">
+        <label class="form-check-label">Female</label>
+      </div>
+    </div><br>
+
+    
+    <!-- <div ngModelGroup="address">
+      <div class="form-group">
+        <label>Street: </label>
+        <input type="text" class="form-control" name="street" >
+      </div>
+       <br>
+      <div class="form-group">
+        <label>City: </label>
+        <input type="text" class="form-control" name="city">
+      </div>
+      <br>
+      <div class="form-group">
+        <label>State: </label>
+        <input type="text" class="form-control" name="state" >
+      </div>
+      <br>
+      <div class="form-group">
+        <label>Postal Code: </label>
+        <input type="text" class="form-control" name="postalcode" >
+      </div>
+      <br>
+    </div> -->
+    <div class="form-check mb-3">
+      <input class="form-check-input" name="subscribe" type="checkbox">
+      <label class="form-check-label">
+        Send me updates for loan offers
+      </label>
+    </div><br>
+
+    <button [disabled]="userForm.form.invalid || loanhasError" class="btn btn-primary" type="submit">Submit form</button>
+
+
+  </form>
+
+</div>
